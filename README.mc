@@ -1,7 +1,7 @@
 ## 项目简介
 
 这是一个没有使用深度学习框架，只借助Python和Numpy实现的RNN网络。由于没有类似Pytorch的自动求梯度的功能，我们需要手动计算Loss到网络各层参数的梯度，这涉及到数学公式的推导，我们将数学公式的推导过程呈现在README文档中。
-如果文档不能正常显示数学公式，请移步我的博客[Recurrent Neural Networks](https://onexiaophai.gitee.io/2022/05/19/数学/循环神经网络介绍/)查看。
+如果文档不能正常显示数学公式，请移步我的博客 [Recurrent Neural Networks](https://onexiaophai.gitee.io/2022/05/19/数学/循环神经网络介绍/) 查看。
 
 ## Conda环境
 
@@ -254,7 +254,7 @@ b^R_1\\b^R_2\\\vdots\\b^R_n
 \end{bmatrix}
 ```
 
-#### 关于矩阵U的偏导
+关于矩阵U的偏导
 
 由上面的记号, $t$ 时刻循环层的输入为$\boldsymbol{\eta}^t$, $\boldsymbol{\eta}^t$ 是网络在 $t$ 时刻的输入 $\boldsymbol{x}^t$ 和 上一时刻的状态 $\boldsymbol{s}^{t-1}$ 的线性变换
 
@@ -376,9 +376,9 @@ W\frac{\partial \boldsymbol{s}^{t-1}}{\partial \boldsymbol{\eta}^{t-1}}
 \end{split}
 ```
 
-#### 计算$\frac{\partial E^t}{\partial \boldsymbol{\eta}^k}\frac{\partial U\boldsymbol{x}^k}{\partial U}$
+计算 $\frac{\partial E^t}{\partial \boldsymbol{\eta}^k}\frac{\partial U\boldsymbol{x}^k}{\partial U}$
 
-##### 计算$\frac{\partial E^t}{\partial \boldsymbol{\eta}^t}$
+计算 $\frac{\partial E^t}{\partial \boldsymbol{\eta}^t}$
 
 ```math
 \begin{split}
@@ -451,7 +451,7 @@ v_{m1}&v_{m2}&\cdots&v_{mn}\\
 
 $\frac{\partial E^t}{\partial \boldsymbol{\eta}^t}$ 的结果记为 $\boldsymbol{\delta^{tt}}$,   称为循环层 $t$ 时刻(第二个 $t$)的输入的**误差项** (**网络 $t$ 时刻输出的误差**关于**循环层 $t$ 时刻输入**的偏导数)
 
-##### 计算$\frac{\partial E^t}{\partial \boldsymbol{\eta}^k}$
+计算 $\frac{\partial E^t}{\partial \boldsymbol{\eta}^k}$
 
 ```math
 \begin{split}
@@ -533,9 +533,9 @@ f'(\eta^{i}_{1})&\cdots&0\\
 \end{split}
 ```
 
-$\frac{\partial E^t}{\partial \boldsymbol{\eta}^k}$ 的结果记为 $\boldsymbol{\delta^{tk}}$,   称为循环层 $k$ 时刻输入的误差项 (**网络 $t$ 时刻输出的误差**关于**循环层 $k$ 时刻输入**的偏导数)
+$\frac{\partial E^t}{\partial \boldsymbol{\eta}^k}$ 的结果记为 $\boldsymbol{\delta^{tk}}$, 称为循环层 $k$ 时刻输入的误差项 (**网络 $t$ 时刻输出的误差**关于**循环层 $k$ 时刻输入**的偏导数)
 
-实际计算中我们会一步一步地计算$\boldsymbol{\delta}^{tt},\boldsymbol{\delta}^{t(t-1)},\cdots,\boldsymbol{\delta}^{t1}$,   而不是使用连乘运算
+实际计算中我们会一步一步地计算$\boldsymbol{\delta}^{tt},\boldsymbol{\delta}^{t(t-1)},\cdots,\boldsymbol{\delta}^{t1}$, 而不是使用连乘运算
 
 ```math
 \begin{split}
@@ -588,7 +588,7 @@ f'(\eta^{1}_{1})&\cdots&0
 \end{split}
 ```
 
-##### 计算$\frac{\partial U\boldsymbol{x}^k}{\partial U}$
+计算 $\frac{\partial U\boldsymbol{x}^k}{\partial U}$
 
 ```math
 \frac{\partial U\boldsymbol{x}^k}{\partial U}=
@@ -643,7 +643,7 @@ x^k_1 & x^k_2 &\cdots & x^k_m\\
 (t \ge k \ge 1)
 ```
 
-##### 计算$\frac{\partial E^t}{\partial \boldsymbol{\eta}^k}\frac{\partial U\boldsymbol{x}^k}{\partial U}$
+计算 $\frac{\partial E^t}{\partial \boldsymbol{\eta}^k}\frac{\partial U\boldsymbol{x}^k}{\partial U}$
 
 ```math
 \frac{\partial E^t}{\partial \boldsymbol{\eta}^k}
@@ -690,7 +690,7 @@ x^k_1 &  x^k_2 & \cdots & x^k_m
 (t \ge k \ge 1)
 ```
 
-##### 最后结果U的梯度
+最后结果U的梯度
 
 ```math
 \frac{\partial E^t}{\partial U}
@@ -706,7 +706,7 @@ x^k_1 &  x^k_2 & \cdots & x^k_m
 \right)
 ```
 
-#### 关于矩阵W的偏导
+### 关于矩阵W的偏导
 
 ```math
 \begin{split}
@@ -807,9 +807,9 @@ W\frac{\partial \boldsymbol{s}^{t-1}}{\partial \boldsymbol{\eta}^{t-1}}
 \end{split}
 ```
 
-#### 计算$\frac{\partial E^t}{\partial \boldsymbol{\eta}^k}\frac{\partial W}{\partial W}\boldsymbol{s}^{k-1}$
+计算 $\frac{\partial E^t}{\partial \boldsymbol{\eta}^k}\frac{\partial W}{\partial W}\boldsymbol{s}^{k-1}$
 
-##### 计算$\frac{\partial W}{\partial W}$
+计算 $\frac{\partial W}{\partial W}$
 
 ```math
 \begin{split}
@@ -875,7 +875,7 @@ w_{n1}&\cdots&w_{nn}
 \end{split}
 ```
 
-##### 计算$\frac{\partial E^t}{\partial \boldsymbol{\eta}^k}\frac{\partial W}{\partial W}\boldsymbol{s}^{k-1}$
+计算 $\frac{\partial E^t}{\partial \boldsymbol{\eta}^k}\frac{\partial W}{\partial W}\boldsymbol{s}^{k-1}$
 
 ```math
 \begin{split}
@@ -943,7 +943,7 @@ s^{k-1}_1&s^{k-1}_2&\cdots&s^{k-1}_n
 \end{split}
 ```
 
-##### 最后结果W的梯度
+最后结果W的梯度
 
 ```math
 \frac{\partial E^t}{\partial W}
@@ -959,7 +959,7 @@ s^{k-1}_1&s^{k-1}_2&\cdots&s^{k-1}_n
 \right)
 ```
 
-#### 关于偏置项$\boldsymbol{b}^R$的偏导
+关于偏置项 $\boldsymbol{b}^R$ 的偏导
 
 ```math
 \begin{split}
@@ -1038,7 +1038,7 @@ s^{k-1}_1&s^{k-1}_2&\cdots&s^{k-1}_n
 \end{split}
 ```
 
-##### 计算$\frac{\partial E^t}{\partial \boldsymbol{\eta}^{k}}\frac{\partial \boldsymbol{b}^R}{\partial \boldsymbol{b}^R}$
+计算 $\frac{\partial E^t}{\partial \boldsymbol{\eta}^{k}}\frac{\partial \boldsymbol{b}^R}{\partial \boldsymbol{b}^R}$
 
 ```math
 \frac{\partial E^t}{\partial \boldsymbol{\eta}^{k}}
@@ -1052,7 +1052,7 @@ I_{nn}=
 \end{bmatrix}
 ```
 
-##### 最后结果 $\boldsymbol{b}^R$ 的梯度
+最后结果 $\boldsymbol{b}^R$ 的梯度
 
 ```math
 \frac{\partial E^t}{\partial \boldsymbol{b}^R}=
