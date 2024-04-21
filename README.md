@@ -267,14 +267,13 @@ b^R_1\\b^R_2\\\vdots\\b^R_n
 
 下面的公式推导出一个 $\partial E^t/\partial U$ 关于时间的递推式, 我们记 $\frac{\partial E^t}{\partial U}(t)$ 为 $t$ 时刻网络输出的误差 $E$ 关于
 
-$$
+```math
 \begin{split}
 \frac{\partial E^t}{\partial U}
 % 第一个等号
 &=
 \frac{\partial E^t}{\partial \boldsymbol{\eta}^t}
-\frac{\partial \boldsymbol{\eta}^t}{\partial U}
-\\
+\frac{\partial \boldsymbol{\eta}^t}{\partial U} \\
 (\boldsymbol{\eta}^t = U\boldsymbol{x}^t + W\boldsymbol{s}^{t-1}+\boldsymbol{b}^R)\rightarrow
 % 第二个等号
 &=
@@ -283,8 +282,7 @@ $$
 \left(
 \frac{\partial U\boldsymbol{x}^t}{\partial U} +
 \frac{\partial W\boldsymbol{s}^{t-1}}{\partial U}
-\right)
-\\
+\right) \\
 % 第三个等号
 &=
 \frac{\partial E^t}{\partial \boldsymbol{\eta}^t}
@@ -293,8 +291,7 @@ $$
 \frac{\partial U\boldsymbol{x}^t}{\partial U} +
 W\frac{\partial \boldsymbol{s}^{t-1}}{\partial \boldsymbol{\eta}^{t-1}}
 \frac{\partial \boldsymbol{\eta}^{t-1}}{\partial U}
-\right)
-\\
+\right) \\
 % 第四个等号
 将\frac{\partial E^t}{\partial \boldsymbol{\eta}^t}乘进括号中去\rightarrow
 &=
@@ -304,8 +301,7 @@ W\frac{\partial \boldsymbol{s}^{t-1}}{\partial \boldsymbol{\eta}^{t-1}}
 % 第四个等号加号右边的内容
 \frac{\partial E^t}{\partial \boldsymbol{\eta}^t}
 \frac{\partial W\boldsymbol{s}^{t-1}}{\partial \boldsymbol{\eta}^{t-1}}
-\frac{\partial \boldsymbol{\eta}^{t-1}}{\partial U}
-\\
+\frac{\partial \boldsymbol{\eta}^{t-1}}{\partial U} \\
 \left(\frac{\partial W\boldsymbol{s}^{t-1}}{\partial \boldsymbol{\eta}^{t-1}}=
 \frac{\partial \boldsymbol{\eta}^t}{\partial \boldsymbol{\eta}^{t-1}}\right)\rightarrow
 % 第五个等号
@@ -314,15 +310,14 @@ W\frac{\partial \boldsymbol{s}^{t-1}}{\partial \boldsymbol{\eta}^{t-1}}
 \frac{\partial U\boldsymbol{x}^t}{\partial U} +
 \frac{\partial E^t}{\partial \boldsymbol{\eta}^t}
 \frac{\partial \boldsymbol{\eta}^t}{\partial \boldsymbol{\eta}^{t-1}}
-\frac{\partial \boldsymbol{\eta}^{t-1}}{\partial U}
-\\
+\frac{\partial \boldsymbol{\eta}^{t-1}}{\partial U} \\
 &=
 \frac{\partial E^t}{\partial \boldsymbol{\eta}^t}
 \frac{\partial U\boldsymbol{x}^t}{\partial U} +
 \frac{\partial E^t}{\partial \boldsymbol{\eta}^{t-1}}
 \frac{\partial \boldsymbol{\eta}^{t-1}}{\partial U}
 \end{split}
-$$
+```
 
 由这个递推式可以得到
 
@@ -437,7 +432,7 @@ v_{m1}&v_{m2}&\cdots&v_{mn}\\
 \sum_{i=1}^m(\frac{\partial E^t}{\partial \xi^t_i}v_{in})
 \right]
 \\
-\text{记为}&=
+记为&=
 \begin{bmatrix}
 \delta^{tt}_1&\delta^{tt}_2&\cdots&\delta^{tt}_n
 \end{bmatrix}
