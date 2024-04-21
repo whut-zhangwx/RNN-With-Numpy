@@ -267,7 +267,7 @@ b^R_1\\b^R_2\\\vdots\\b^R_n
 
 下面的公式推导出一个 $\partial E^t/\partial U$ 关于时间的递推式, 我们记 $\frac{\partial E^t}{\partial U}(t)$ 为 $t$ 时刻网络输出的误差 $E$ 关于
 
-```math
+$$
 \begin{split}
 \frac{\partial E^t}{\partial U}
 % 第一个等号
@@ -322,7 +322,7 @@ W\frac{\partial \boldsymbol{s}^{t-1}}{\partial \boldsymbol{\eta}^{t-1}}
 \frac{\partial E^t}{\partial \boldsymbol{\eta}^{t-1}}
 \frac{\partial \boldsymbol{\eta}^{t-1}}{\partial U}
 \end{split}
-```
+$$
 
 由这个递推式可以得到
 
