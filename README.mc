@@ -1,9 +1,16 @@
-## 简介
+## 项目简介
 
 这是一个没有使用深度学习框架，只借助Python和Numpy实现的RNN网络。由于没有类似Pytorch的自动求梯度的功能，我们需要手动计算Loss到网络各层参数的梯度，这涉及到数学公式的推导，我们将数学公式的推导过程呈现在README文档中。
 如果文档不能正常显示数学公式，请移步我的博客[Recurrent Neural Networks](https://onexiaophai.gitee.io/2022/05/19/数学/循环神经网络介绍/)查看。
 
-## 循环神经网络Recurrent Neural Networks
+## Conda环境
+
+```shell
+conda create --name env_for_rnn python=3.9 numpy pandas matplotlib sympy ipykernel scikit-learn
+conda activate env_for_rnn
+```
+
+## Recurrent Neural Networks
 
 ![img](https://xiaophai-typora.oss-cn-shanghai.aliyuncs.com/2256672-cf18bb1f06e750a4.jpg)
 
@@ -11,8 +18,9 @@
 
 ### 输入层
 
-网络的输入是一串**m维向量序列** $\boldsymbol{x^1},\boldsymbol{x^2},\cdots,\boldsymbol{x^t},\cdots$
-$$
+网络的输入是一串**m维向量序列**  $\boldsymbol{x^1},\boldsymbol{x^2},\cdots,\boldsymbol{x^t},\cdots$
+
+```math
 \boldsymbol{x^1} =
 \begin{bmatrix}
 x^1_1\\x^1_2\\\vdots\\x^1_m
@@ -27,13 +35,13 @@ x^2_1\\x^2_2\\\vdots\\x^2_m
 x^t_1\\x^t_2\\\vdots\\x^t_m
 \end{bmatrix},
 \cdots
-$$
+```
 
 ### 循环层
 
 网络的状态是一串**n维向量序列** $\boldsymbol{s^0},\boldsymbol{s^1},\boldsymbol{s^2}\cdots,\boldsymbol{s^t},\cdots$
 
-$$
+```math
 \begin{gather*}
 \begin{bmatrix}
 s^t_1\\s^t_2\\\vdots\\s^t_n
@@ -66,13 +74,13 @@ b^R_1\\b^R_2\\\vdots\\b^R_n
 \\
 t = 1,2,\cdots
 \end{gather*}
-$$
+```
 
 ### 输出层
 
 网络的输出是一串**m维的向量序列** $\boldsymbol{o^{1}},\boldsymbol{o^{2}},\cdots,\boldsymbol{o^{t}},\cdots$
 
-$$
+```math
 \begin{gather*}
 \begin{bmatrix}
 o^t_1\\o^t_2\\\vdots\\o^t_m
@@ -95,7 +103,7 @@ b^O_1\\b^O_2\\\vdots\\b^O_m
 \\
 t = 1,2,\cdots
 \end{gather*}
-$$
+```
 
 ### 网络的输出
 
@@ -103,7 +111,7 @@ $$
 
 (下面的推导式中省略了偏置项 $\boldsymbol{b}$)
 
-$$
+```math
 \begin{split}
 \boldsymbol{o^t} &= g\left( V\boldsymbol{s^t}\right) \\
 &= g\left( Vf\left(U\boldsymbol{x^t}+W\boldsymbol{s^{t-1}}\right)\right) \\
@@ -111,19 +119,20 @@ $$
 &\vdots\\
 &=g\left( Vf\left(U\boldsymbol{x^t}+Wf\left(U\boldsymbol{x^{t-1}}+Wf\left(U\boldsymbol{x^{t-2}}+\cdots+ Wf\left(U\boldsymbol{x^1}+W\boldsymbol{s^0}\right)\right)\right)\right)\right) \\
 \end{split}
-$$
+```
 
 ### 网络输出的误差
 
 网络在每个 $t$ 时刻的输出 $\boldsymbol{o^t}$ 都对应一个目标向量 $\boldsymbol{t}^t$ (target),   每个时刻都对应一个误差,   用$E^t$来表示 ,   $E^t$ 是关于 $\boldsymbol{o^t}$和 $\boldsymbol{t}^t$ 的函数,   例如采用二范数的平方表示误差,   误差函数如下计算
-$$
+
+```math
 \begin{split}
 E^t &= \frac{1}{2}\|\boldsymbol{o}^t-\boldsymbol{t}^t\|_2^2
 \\
 &=
 \frac{1}{2}\sum_{i=1}^m (o^t_i-t^t_i)^2
 \end{split}
-$$
+```
 
 ## 梯度的计算(Back Propagate Through Time, BPTT)
 
@@ -131,7 +140,7 @@ $$
 
 记输出层 $t$ 时刻的输入向量为 $\boldsymbol{\xi}^{t}$
 
-$$
+```math
 \begin{split}
 \begin{bmatrix}
 o^t_1\\o^t_2\\\vdots\\o^t_m
@@ -165,9 +174,9 @@ s^t_1\\s^t_2\\\vdots\\s^t_n
 b^O_1\\b^O_2\\\vdots\\b^O_m
 \end{bmatrix}
 \end{split}
-$$
+```
 
-$$
+```math
 \begin{split}
 \frac{\partial E^t}{\partial v_{ij}} &=
 \frac{\partial E^t}{\partial \xi^t_i}\cdot\frac{\partial \xi^t_i}{\partial v_{ij}}
@@ -178,11 +187,11 @@ $$
 =\frac{\partial E^t}{\partial \xi^t_i}\cdot 1
 \end{split}
 \qquad i=1,\cdots,m\quad j=1,\cdots,n
-$$
+```
 
 向量化计算梯度
 
-$$
+```math
 \frac{\partial E^t}{\partial \boldsymbol{b^O}} =
 \begin{bmatrix}
 \frac{\partial E^t}{\partial \xi^t_1}\\\frac{\partial E^t}{\partial \xi^t_2}\\\vdots\\\frac{\partial E^t}{\partial \xi^t_m}
@@ -201,13 +210,13 @@ s^t_1&s^t_2&\cdots&s^t_n
 \vdots & \vdots & \ddots & \vdots \\
 \frac{\partial E^t}{\partial \xi^t_m} s^t_1 & \frac{\partial E^t}{\partial \xi^t_m} s^t_2 & \cdots & \frac{\partial E^t}{\partial \xi^t_m} s^t_n \\
 \end{bmatrix}
-$$
+```
 
 ### 输入层到循环层
 
 记循环层 $t$ 时刻的输入向量为 $\boldsymbol{\eta}^t$
 
-$$
+```math
 \begin{bmatrix}
 s^t_1\\s^t_2\\\vdots\\s^t_n
 \end{bmatrix}=
@@ -243,22 +252,22 @@ s^{t-1}_1\\s^{t-1}_2\\\vdots\\s^{t-1}_n
 \begin{bmatrix}
 b^R_1\\b^R_2\\\vdots\\b^R_n
 \end{bmatrix}
-$$
+```
 
 #### 关于矩阵U的偏导
 
 由上面的记号, $t$ 时刻循环层的输入为$\boldsymbol{\eta}^t$, $\boldsymbol{\eta}^t$ 是网络在 $t$ 时刻的输入 $\boldsymbol{x}^t$ 和 上一时刻的状态 $\boldsymbol{s}^{t-1}$ 的线性变换
 
-$$
+```math
 \begin{gather}
 \boldsymbol{\eta}^t = U\boldsymbol{x}^t + W\boldsymbol{s}^{t-1}+\boldsymbol{b}^R\\
 \boldsymbol{s}^{t-1} = f(\boldsymbol{\eta}^{t-1})
 \end{gather}
-$$
+```
 
 下面的公式推导出一个 $\partial E^t/\partial U$ 关于时间的递推式, 我们记 $\frac{\partial E^t}{\partial U}(t)$ 为 $t$ 时刻网络输出的误差 $E$ 关于
 
-$$
+```math
 \begin{split}
 \frac{\partial E^t}{\partial U}
 % 第一个等号
@@ -318,11 +327,11 @@ W\frac{\partial \boldsymbol{s}^{t-1}}{\partial \boldsymbol{\eta}^{t-1}}
 \frac{\partial E^t}{\partial \boldsymbol{\eta}^{t-1}}
 \frac{\partial \boldsymbol{\eta}^{t-1}}{\partial U}
 \end{split}
-$$
+```
 
 由这个递推式可以得到
 
-$$
+```math
 \begin{split}
 \frac{\partial E^t}{\partial U}
 % 第一个等号
@@ -365,13 +374,13 @@ $$
 \frac{\partial E^t}{\partial \boldsymbol{\eta}^{1}}
 \frac{\partial U\boldsymbol{x}^{1}}{\partial U}
 \end{split}
-$$
+```
 
 #### 计算$\frac{\partial E^t}{\partial \boldsymbol{\eta}^k}\frac{\partial U\boldsymbol{x}^k}{\partial U}$
 
 ##### 计算$\frac{\partial E^t}{\partial \boldsymbol{\eta}^t}$
 
-$$
+```math
 \begin{split}
 \frac{\partial E^t}{\partial \boldsymbol{\eta}^t}
 &=
@@ -438,13 +447,13 @@ v_{m1}&v_{m2}&\cdots&v_{mn}\\
 \delta^{tt}_1&\delta^{tt}_2&\cdots&\delta^{tt}_n
 \end{bmatrix}
 \end{split}
-$$
+```
 
 $\frac{\partial E^t}{\partial \boldsymbol{\eta}^t}$ 的结果记为 $\boldsymbol{\delta^{tt}}$,   称为循环层 $t$ 时刻(第二个 $t$)的输入的**误差项** (**网络 $t$ 时刻输出的误差**关于**循环层 $t$ 时刻输入**的偏导数)
 
 ##### 计算$\frac{\partial E^t}{\partial \boldsymbol{\eta}^k}$
 
-$$
+```math
 \begin{split}
 \frac{\partial \boldsymbol{\eta}^t}{\partial \boldsymbol{\eta}^{t-1}}
 &=
@@ -489,9 +498,9 @@ f'(\eta^{t-1}_{1})&0&\cdots&0
 0&0&\cdots&f'(\eta^{t-1}_{n})
 \end{bmatrix}
 \end{split}
-$$
+```
 
-$$
+```math
 \begin{split}
 \frac{\partial E^t}{\partial \boldsymbol{\eta}^k}
 &=
@@ -522,12 +531,13 @@ f'(\eta^{i}_{1})&\cdots&0\\
 \end{bmatrix}
 \qquad (t \ge k \ge 1)
 \end{split}
-$$
+```
 
 $\frac{\partial E^t}{\partial \boldsymbol{\eta}^k}$ 的结果记为 $\boldsymbol{\delta^{tk}}$,   称为循环层 $k$ 时刻输入的误差项 (**网络 $t$ 时刻输出的误差**关于**循环层 $k$ 时刻输入**的偏导数)
 
 实际计算中我们会一步一步地计算$\boldsymbol{\delta}^{tt},\boldsymbol{\delta}^{t(t-1)},\cdots,\boldsymbol{\delta}^{t1}$,   而不是使用连乘运算
-$$
+
+```math
 \begin{split}
 % 第一行
 \begin{bmatrix}
@@ -576,11 +586,11 @@ f'(\eta^{1}_{1})&\cdots&0
 0&\cdots&f'(\eta^{1}_{n})
 \end{bmatrix}
 \end{split}
-$$
+```
 
 ##### 计算$\frac{\partial U\boldsymbol{x}^k}{\partial U}$
 
-$$
+```math
 \frac{\partial U\boldsymbol{x}^k}{\partial U}=
 % 第一个大矩阵
 \begin{bmatrix}
@@ -631,11 +641,11 @@ x^k_1 & x^k_2 &\cdots & x^k_m\\
 \end{bmatrix}
 \qquad
 (t \ge k \ge 1)
-$$
+```
 
 ##### 计算$\frac{\partial E^t}{\partial \boldsymbol{\eta}^k}\frac{\partial U\boldsymbol{x}^k}{\partial U}$
 
-$$
+```math
 \frac{\partial E^t}{\partial \boldsymbol{\eta}^k}
 \cdot
 \frac{\partial U\boldsymbol{x}^k}{\partial U} =
@@ -678,11 +688,11 @@ x^k_1 &  x^k_2 & \cdots & x^k_m
 \end{bmatrix}
 \qquad
 (t \ge k \ge 1)
-$$
+```
 
 ##### 最后结果U的梯度
 
-$$
+```math
 \frac{\partial E^t}{\partial U}
 % 第一个等号
 =\sum_{k=1}^t
@@ -694,11 +704,11 @@ $$
 x^k_1 &  x^k_2 & \cdots & x^k_m
 \end{bmatrix}
 \right)
-$$
+```
 
 #### 关于矩阵W的偏导
 
-$$
+```math
 \begin{split}
 \frac{\partial E^t}{\partial W}
 % 第一个等号
@@ -750,9 +760,9 @@ W\frac{\partial \boldsymbol{s}^{t-1}}{\partial \boldsymbol{\eta}^{t-1}}
 \frac{\partial E^t}{\partial \boldsymbol{\eta}^{t-1}}
 \frac{\partial \boldsymbol{\eta}^{t-1}}{\partial W}
 \end{split}
-$$
+```
 
-$$
+```math
 \begin{split}
 \frac{\partial E^t}{\partial W}
 % 第一个等号
@@ -795,13 +805,13 @@ $$
 \frac{\partial E^t}{\partial \boldsymbol{\eta}^{1}}
 \frac{\partial W}{\partial W}\boldsymbol{s}^{0}
 \end{split}
-$$
+```
 
 #### 计算$\frac{\partial E^t}{\partial \boldsymbol{\eta}^k}\frac{\partial W}{\partial W}\boldsymbol{s}^{k-1}$
 
 ##### 计算$\frac{\partial W}{\partial W}$
 
-$$
+```math
 \begin{split}
 \frac{\partial W}{\partial W}&=
 \frac
@@ -863,11 +873,11 @@ w_{n1}&\cdots&w_{nn}
 \right)
 \end{bmatrix}
 \end{split}
-$$
+```
 
 ##### 计算$\frac{\partial E^t}{\partial \boldsymbol{\eta}^k}\frac{\partial W}{\partial W}\boldsymbol{s}^{k-1}$
 
-$$
+```math
 \begin{split}
 \frac{\partial E^t}{\partial \boldsymbol{\eta}^k}\frac{\partial W}{\partial W}\boldsymbol{s}^{k-1}
 &=
@@ -931,11 +941,11 @@ s^{k-1}_1&s^{k-1}_2&\cdots&s^{k-1}_n
 \qquad
 (t \geq k \geq 1)
 \end{split}
-$$
+```
 
 ##### 最后结果W的梯度
 
-$$
+```math
 \frac{\partial E^t}{\partial W}
 % 第一个等号
 =\sum_{k=1}^t
@@ -947,11 +957,11 @@ $$
 s^{k-1}_1&s^{k-1}_2&\cdots&s^{k-1}_n
 \end{bmatrix}
 \right)
-$$
+```
 
 #### 关于偏置项$\boldsymbol{b}^R$的偏导
 
-$$
+```math
 \begin{split}
 \frac{\partial E^t}{\partial \boldsymbol{b}^R}
 % 第一个等号
@@ -991,9 +1001,9 @@ $$
 \frac{\partial E^t}{\partial \boldsymbol{\eta}^{t-1}}
 \frac{\partial \boldsymbol{\eta}^{t-1}}{\partial \boldsymbol{b}^R}
 \end{split}
-$$
+```
 
-$$
+```math
 \begin{split}
 \frac{\partial E^t}{\partial \boldsymbol{b}^R}
 % 第一个等号
@@ -1026,11 +1036,11 @@ $$
 \frac{\partial E^t}{\partial \boldsymbol{\eta}^{1}}
 \frac{\partial \boldsymbol{b}^R}{\partial \boldsymbol{b}^R}
 \end{split}
-$$
+```
 
 ##### 计算$\frac{\partial E^t}{\partial \boldsymbol{\eta}^{k}}\frac{\partial \boldsymbol{b}^R}{\partial \boldsymbol{b}^R}$
 
-$$
+```math
 \frac{\partial E^t}{\partial \boldsymbol{\eta}^{k}}
 \frac{\partial \boldsymbol{b}^R}{\partial \boldsymbol{b}^R}=
 \frac{\partial E^t}{\partial \boldsymbol{\eta}^{k}}
@@ -1040,11 +1050,11 @@ I_{nn}=
 \begin{bmatrix}
 \delta^{tk}_1\\\delta^{tk}_2\\\vdots\\\delta^{tk}_n
 \end{bmatrix}
-$$
+```
 
 ##### 最后结果 $\boldsymbol{b}^R$ 的梯度
 
-$$
+```math
 \frac{\partial E^t}{\partial \boldsymbol{b}^R}=
 \sum_{k=1}^t
 \left(
@@ -1052,4 +1062,4 @@ $$
 \delta^{tk}_1\\\delta^{tk}_2\\\vdots\\\delta^{tk}_n
 \end{bmatrix}
 \right)
-$$
+```
