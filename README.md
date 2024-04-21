@@ -281,8 +281,7 @@ b^R_1\\b^R_2\\\vdots\\b^R_n
 \frac{\partial E^t}{\partial \boldsymbol{\eta}^t}
 % 第二个等号括号中的内容
 \left(
-\frac{\partial U\boldsymbol{x}^t}{\partial U}
-+
+\frac{\partial U\boldsymbol{x}^t}{\partial U} +
 \frac{\partial W\boldsymbol{s}^{t-1}}{\partial U}
 \right)
 \\
@@ -291,8 +290,7 @@ b^R_1\\b^R_2\\\vdots\\b^R_n
 \frac{\partial E^t}{\partial \boldsymbol{\eta}^t}
 % 第三个等号括号中的内容
 \left(
-\frac{\partial U\boldsymbol{x}^t}{\partial U}
-+
+\frac{\partial U\boldsymbol{x}^t}{\partial U} +
 W\frac{\partial \boldsymbol{s}^{t-1}}{\partial \boldsymbol{\eta}^{t-1}}
 \frac{\partial \boldsymbol{\eta}^{t-1}}{\partial U}
 \right)
@@ -302,8 +300,7 @@ W\frac{\partial \boldsymbol{s}^{t-1}}{\partial \boldsymbol{\eta}^{t-1}}
 &=
 % 第四个等号加号左边的内容
 \frac{\partial E^t}{\partial \boldsymbol{\eta}^t}
-\frac{\partial U\boldsymbol{x}^t}{\partial U}
-+
+\frac{\partial U\boldsymbol{x}^t}{\partial U} +
 % 第四个等号加号右边的内容
 \frac{\partial E^t}{\partial \boldsymbol{\eta}^t}
 \frac{\partial W\boldsymbol{s}^{t-1}}{\partial \boldsymbol{\eta}^{t-1}}
@@ -314,16 +311,14 @@ W\frac{\partial \boldsymbol{s}^{t-1}}{\partial \boldsymbol{\eta}^{t-1}}
 % 第五个等号
 &=
 \frac{\partial E^t}{\partial \boldsymbol{\eta}^t}
-\frac{\partial U\boldsymbol{x}^t}{\partial U}
-+
+\frac{\partial U\boldsymbol{x}^t}{\partial U} +
 \frac{\partial E^t}{\partial \boldsymbol{\eta}^t}
 \frac{\partial \boldsymbol{\eta}^t}{\partial \boldsymbol{\eta}^{t-1}}
 \frac{\partial \boldsymbol{\eta}^{t-1}}{\partial U}
 \\
 &=
 \frac{\partial E^t}{\partial \boldsymbol{\eta}^t}
-\frac{\partial U\boldsymbol{x}^t}{\partial U}
-+
+\frac{\partial U\boldsymbol{x}^t}{\partial U} +
 \frac{\partial E^t}{\partial \boldsymbol{\eta}^{t-1}}
 \frac{\partial \boldsymbol{\eta}^{t-1}}{\partial U}
 \end{split}
@@ -535,7 +530,7 @@ f'(\eta^{i}_{1})&\cdots&0\\
 
 $\frac{\partial E^t}{\partial \boldsymbol{\eta}^k}$ 的结果记为 $\boldsymbol{\delta^{tk}}$, 称为循环层 $k$ 时刻输入的误差项 (**网络 $t$ 时刻输出的误差**关于**循环层 $k$ 时刻输入**的偏导数)
 
-实际计算中我们会一步一步地计算$\boldsymbol{\delta}^{tt},\boldsymbol{\delta}^{t(t-1)},\cdots,\boldsymbol{\delta}^{t1}$, 而不是使用连乘运算
+实际计算中我们会一步一步地计算 $\boldsymbol{\delta}^{tt},\boldsymbol{\delta}^{t(t-1)},\cdots,\boldsymbol{\delta}^{t1}$, 而不是使用连乘运算
 
 ```math
 \begin{split}
